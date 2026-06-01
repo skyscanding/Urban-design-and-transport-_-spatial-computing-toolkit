@@ -25,7 +25,7 @@
 ## Environment Setup
 
 ```bash
-# qgis_process — QGIS processing framework CLI (most commonly used)
+# qgis_process, QGIS processing framework CLI (most commonly used)
 D:\QGIS\bin\qgis_process-qgis.bat [command] [algorithm] [parameters]
 
 # QGIS-bundled Python interpreter (for PyQGIS scripts)
@@ -528,7 +528,7 @@ TRAVEL_COST units depend on edge weight field: if edge weight is length (metres)
 
 ### Flow Assignment (Network Flow Accumulation)
 
-QGIS native tools can only compute **single shortest paths** — they cannot **accumulate flows from multiple OD pairs onto the same road segment**.
+QGIS native tools can only compute **single shortest paths**, they cannot **accumulate flows from multiple OD pairs onto the same road segment**.
 
 For multi-origin flow accumulation (e.g. 100 residential blocks → 1 destination, with all shortest paths overlaid), use PyQGIS with networkx. Basic approach:
 
@@ -542,7 +542,7 @@ Batch shortest path + flow accumulation on segments
 qgis_process postprocessing (LOS classification / export)
 ```
 
-See full script in [Workflow Example — Network Flow Assignment](#example-3-network-flow-assignment-pyqgis-script).
+See full script in [Workflow Example, Network Flow Assignment](#example-3-network-flow-assignment-pyqgis-script).
 
 ---
 
@@ -603,7 +603,7 @@ STATISTICS: 1=Count, 2=Sum, 3=Minority, 4=Mean, 5=Stddev, 6=Min, 7=Max, 8=Range,
 
 ## Spatial Regression
 
-### GWR — Geographically Weighted Regression (SAGA)
+### GWR, Geographically Weighted Regression (SAGA)
 
 ```bash
 "D:\QGIS\bin\qgis_process-qgis.bat" run saga:geographicallyweightedregression \
@@ -666,7 +666,7 @@ STATISTICS: 1=Count, 2=Sum, 3=Minority, 4=Mean, 5=Stddev, 6=Min, 7=Max, 8=Range,
   --INPUT="data.gpkg" --OUTPUT="output.xlsx"
 ```
 
-### ogr2ogr — Create Multi-Layer GPKG
+### ogr2ogr, Create Multi-Layer GPKG
 
 ```bash
 # First layer
@@ -720,15 +720,15 @@ STATISTICS: 1=Count, 2=Sum, 3=Minority, 4=Mean, 5=Stddev, 6=Min, 7=Max, 8=Range,
 ### GUI Method (recommended for cartography)
 
 `Project → New Print Layout` lets you interactively design maps in the GIS window:
-- **Add Map** — insert a map view, choose displayed layers
-- **Add Legend** — auto-generate legend
-- **Add Scale Bar** — add a scale bar
-- **Add Label** — title and annotations
-- **Layer Styling Panel** — configure per-layer styles:
-  - Single Symbol — uniform style
-  - Categorized — colour by field value (e.g. land-use type)
-  - Graduated — gradient by numeric value (e.g. population density, flow)
-  - Rule-based — complex conditional styling
+- **Add Map**, insert a map view, choose displayed layers
+- **Add Legend**, auto-generate legend
+- **Add Scale Bar**, add a scale bar
+- **Add Label**, title and annotations
+- **Layer Styling Panel**, configure per-layer styles:
+  - Single Symbol, uniform style
+  - Categorized, colour by field value (e.g. land-use type)
+  - Graduated, gradient by numeric value (e.g. population density, flow)
+  - Rule-based, complex conditional styling
 
 ---
 
@@ -816,7 +816,7 @@ Save as `flow_assignment.py`, run with `D:\QGIS\bin\python-qgis.bat flow_assignm
 
 ```python
 """
-Network Flow Assignment — Multi-origin → Single destination shortest-path flow accumulation
+Network Flow Assignment, Multi-origin → Single destination shortest-path flow accumulation
 Run with: D:\QGIS\bin\python-qgis.bat flow_assignment.py
 """
 import os, sys
@@ -922,7 +922,7 @@ tree = cKDTree(graph_xy)
 _, idx = tree.query(site_xy)
 dest_node = graph_nodes[idx]
 
-# Dijkstra — all nodes to destination
+# Dijkstra, all nodes to destination
 sp_dist = nx.single_source_dijkstra_path_length(G, dest_node, weight='weight')
 print(f"  Reachable nodes: {len(sp_dist)} / {G.number_of_nodes()}")
 
@@ -1012,7 +1012,7 @@ mkdir -p "$OUT"
   --LEN_FIELD="road_len" --COUNT_FIELD="road_n" \
   --OUTPUT="$OUT/grid_poi_road.gpkg"
 
-# Step 4: Zonal statistics — extract values from population raster
+# Step 4: Zonal statistics, extract values from population raster
 "D:\QGIS\bin\qgis_process-qgis.bat" run native:zonalstatisticsfb \
   --INPUT="$OUT/grid_poi_road.gpkg" --RASTER="pop.tif" \
   --COLUMN_PREFIX="pop_" --STATISTICS=2,4,6 \
@@ -1036,7 +1036,7 @@ echo "Done. GWR results: $OUT/gwr_*.gpkg"
 
 ### Why GPKG over SHP?
 
-- GPKG is a single file — SHP requires .shp + .shx + .dbf + .prj (4 files minimum)
+- GPKG is a single file, SHP requires .shp + .shx + .dbf + .prj (4 files minimum)
 - Multiple layers can live in one file
 - No 10-character field name limit (SHP enforces this)
 - Supports more data types (date, boolean, BLOB)
@@ -1079,8 +1079,8 @@ You can use Model Builder (`Processing → Graphical Modeler`) to save pipelines
 
 ## Related Tools
 
-- [GWR Pipeline](../gwr-pipeline/) — ArcGIS Pro arcpy pipeline for facility distribution GWR modelling
-- [Spatial Computing Toolkit](../) — project overview
+- [GWR Pipeline](../gwr-pipeline/), ArcGIS Pro arcpy pipeline for facility distribution GWR modelling
+- [Spatial Computing Toolkit](../), project overview
 
 ## License
 

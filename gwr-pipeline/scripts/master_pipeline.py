@@ -1,5 +1,5 @@
 """
-GWR Pipeline — Master Orchestrator
+GWR Pipeline, Master Orchestrator
 ====================================
 Runs the full GWR-based facility distribution prediction pipeline.
 All parameters are read from a JSON config file (see config_template.json).

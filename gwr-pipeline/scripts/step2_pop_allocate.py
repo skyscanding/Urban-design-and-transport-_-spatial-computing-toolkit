@@ -1,5 +1,5 @@
 """
-GWR Pipeline — Step 2: Dasymetric Population Allocation
+GWR Pipeline, Step 2: Dasymetric Population Allocation
 =========================================================
 Allocates census population to individual building footprints weighted by
 building height (a proxy for GFA: gross floor area).
@@ -7,17 +7,17 @@ building height (a proxy for GFA: gross floor area).
 Formula: pop_bldg = census_pop × (footprint_area × height) / Σ(area × height)
 
 Input:
-  - pop_fc: str          — census population feature class (must have pop field)
-  - bldg_fc: str          — building footprint feature class (must have elev field)
-  - output_gdb: str       — output File Geodatabase
-  - pop_field: str        — population count field name (default 'Averag_pop')
-  - elev_field: str       — building elevation/height field (default 'Elevation')
-  - fallback_height: float — height for buildings with missing data (default 3.0m)
+  - pop_fc: str        , census population feature class (must have pop field)
+  - bldg_fc: str        , building footprint feature class (must have elev field)
+  - output_gdb: str     , output File Geodatabase
+  - pop_field: str      , population count field name (default 'Averag_pop')
+  - elev_field: str     , building elevation/height field (default 'Elevation')
+  - fallback_height: float, height for buildings with missing data (default 3.0m)
 
 Output (in output_gdb):
-  - site_buildings         — buildings with 'bldg_pop' field (allocated population)
-  - bldg_pop_intersect     — intermediate intersection fragments
-  - bldg_pop_summary       — summary table
+  - site_buildings       , buildings with 'bldg_pop' field (allocated population)
+  - bldg_pop_intersect   , intermediate intersection fragments
+  - bldg_pop_summary     , summary table
 
 Usage:
   python step2_pop_allocate.py --config my_config.py
@@ -42,13 +42,13 @@ def dasymetric_population(pop_fc, bldg_fc, output_gdb,
 
     Parameters
     ----------
-    pop_fc : str        — path to population polygon feature class
-    bldg_fc : str       — path to building footprint feature class
-    output_gdb : str    — path to output File Geodatabase
-    pop_field : str     — field name containing population count
-    elev_field : str    — field name containing building elevation (m)
-    fallback_height : float — height for missing/zero elevation values
-    arcpy_env : dict    — optional arcpy environment overrides
+    pop_fc : str      , path to population polygon feature class
+    bldg_fc : str     , path to building footprint feature class
+    output_gdb : str  , path to output File Geodatabase
+    pop_field : str   , field name containing population count
+    elev_field : str  , field name containing building elevation (m)
+    fallback_height : float, height for missing/zero elevation values
+    arcpy_env : dict  , optional arcpy environment overrides
     """
     T0 = time.time()
     if arcpy_env:

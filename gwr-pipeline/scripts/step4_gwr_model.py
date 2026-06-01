@@ -1,5 +1,5 @@
 """
-GWR Pipeline — Step 4: GWR Model Fitting + Future Scenario Prediction
+GWR Pipeline, Step 4: GWR Model Fitting + Future Scenario Prediction
 =======================================================================
 Fits a Geographically Weighted Regression model using arcpy.stats.GWR
 to estimate spatially-varying relationships between POI/facility density
@@ -8,19 +8,19 @@ scenario (population projections, infrastructure changes) to predict
 future facility distribution.
 
 Input:
-  - grid_active_fc: str     — grid cells with POI > 0 (from step 3)
-  - dependent_var: str       — field name for dependent variable (e.g. 'poi_count')
-  - explanatory_vars: list[str] — field names for independent variables
-  - output_gdb: str          — output GDB
-  - prediction_fc: str       — optional future scenario grid
-  - neighborhood_type: str   — 'NUMBER_OF_NEIGHBORS' or 'DISTANCE_BAND'
-  - selection_method: str    — 'GOLDEN_SEARCH', 'MANUAL_INTERVALS', 'USER_DEFINED'
-  - num_neighbors: int       — fixed neighbor count (if USER_DEFINED)
-  - scale_data: bool          — whether to standardize variables
+  - grid_active_fc: str   , grid cells with POI > 0 (from step 3)
+  - dependent_var: str     , field name for dependent variable (e.g. 'poi_count')
+  - explanatory_vars: list[str], field names for independent variables
+  - output_gdb: str        , output GDB
+  - prediction_fc: str     , optional future scenario grid
+  - neighborhood_type: str , 'NUMBER_OF_NEIGHBORS' or 'DISTANCE_BAND'
+  - selection_method: str  , 'GOLDEN_SEARCH', 'MANUAL_INTERVALS', 'USER_DEFINED'
+  - num_neighbors: int     , fixed neighbor count (if USER_DEFINED)
+  - scale_data: bool        , whether to standardize variables
 
 Output (in output_gdb):
-  - gwr_results               — fitted GWR model output
-  - gwr_prediction_future     — predicted values for future scenario
+  - gwr_results             , fitted GWR model output
+  - gwr_prediction_future   , predicted values for future scenario
 
 Usage:
   python step4_gwr_model.py --config my_config.py

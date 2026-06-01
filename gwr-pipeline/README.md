@@ -1,6 +1,6 @@
-# GWR Pipeline — Geographically Weighted Regression for Facility Distribution
+# GWR Pipeline, Geographically Weighted Regression for Facility Distribution
 
-ArcGIS Pro / arcpy pipeline that uses **Geographically Weighted Regression (GWR)** to model how facility distribution (POIs, shops, community services, sports venues) relates to built-environment indicators — then predicts future distribution from population and infrastructure projections.
+ArcGIS Pro / arcpy pipeline that uses **Geographically Weighted Regression (GWR)** to model how facility distribution (POIs, shops, community services, sports venues) relates to built-environment indicators, then predicts future distribution from population and infrastructure projections.
 
 No GUI. Entirely command-line driven. Validated against a real-world Tung Chung TOD case study.
 
@@ -37,7 +37,7 @@ Infrastructure / Transit (co-variates)
 Future Facility Distribution (predicted)
 ```
 
-**Why GWR?** Facility demand relationships vary spatially. Near metro stations, population density may strongly predict POI count; in rural areas, road access may matter more. Global models like OLS assume a single, stationary relationship — GWR captures this spatial heterogeneity by fitting separate regression models at every location, weighted by nearby observations.
+**Why GWR?** Facility demand relationships vary spatially. Near metro stations, population density may strongly predict POI count; in rural areas, road access may matter more. Global models like OLS assume a single, stationary relationship, GWR captures this spatial heterogeneity by fitting separate regression models at every location, weighted by nearby observations.
 
 ### The Regression Model
 
@@ -51,7 +51,7 @@ Each location `(uᵢ, vᵢ)` gets its own set of coefficients β, estimated from
 
 ## Case Study: Tung Chung TOD
 
-This pipeline was developed and validated for the **Tung Chung Tat Tung Road Bus Terminus** site — a 4.61 ha TOD project in Hong Kong's Tung Chung New Town Extension.
+This pipeline was developed and validated for the **Tung Chung Tat Tung Road Bus Terminus** site, a 4.61 ha TOD project in Hong Kong's Tung Chung New Town Extension.
 
 | Parameter | Value |
 |-----------|-------|
@@ -122,7 +122,7 @@ Each step has specific input requirements. At minimum you need:
 
 | Layer | Geometry | Required Fields | Notes |
 |-------|----------|-----------------|-------|
-| **Site boundary** | Polygon | — | Your design site |
+| **Site boundary** | Polygon |, | Your design site |
 | **POIs** | Point | `midType` or equivalent category field | Can be split into multiple files by category |
 | **Population** | Polygon | Population count (e.g. `Averag_pop`) | Census SSBG or street-block level |
 | **Buildings** | Polygon | Building elevation/height (e.g. `Elevation`) | Footprint polygons |
@@ -209,7 +209,7 @@ Classifies facilities into **daytime** / **nighttime** / **all-day** operation b
 
 ### Why This Matters
 
-Daytime-oriented facilities (offices, banks, schools) cluster around existing CBDs — Tung Chung's Citygate outlet dominates daytime activity. Nighttime facilities (F&B, leisure) are systematically underrepresented near transit hubs. This classification reveals the **evening economy gap** that TOD should fill.
+Daytime-oriented facilities (offices, banks, schools) cluster around existing CBDs, Tung Chung's Citygate outlet dominates daytime activity. Nighttime facilities (F&B, leisure) are systematically underrepresented near transit hubs. This classification reveals the **evening economy gap** that TOD should fill.
 
 In the Tung Chung case, the existing POI mix within 600m of the bus terminus showed:
 - 72% of POIs classified as "both" (all-day retail, healthcare)
@@ -254,7 +254,7 @@ python scripts/step1_classify_poi.py \
     --output-gdb D:/output/study.gdb
 ```
 
-The classification dictionaries are configurable — see [Built-in Classification Dictionaries](#built-in-classification-dictionaries) for the default Hong Kong-context values.
+The classification dictionaries are configurable, see [Built-in Classification Dictionaries](#built-in-classification-dictionaries) for the default Hong Kong-context values.
 
 ### Pitfalls
 
@@ -265,13 +265,13 @@ The classification dictionaries are configurable — see [Built-in Classificatio
 
 ## Step 2: Dasymetric Population Allocation
 
-Distributes census population from areal units (SSBGs) to individual building footprints, weighted by building elevation — a proxy for gross floor area (GFA).
+Distributes census population from areal units (SSBGs) to individual building footprints, weighted by building elevation, a proxy for gross floor area (GFA).
 
 **Script**: `scripts/step2_pop_allocate.py`
 
 ### Why This Matters
 
-Census data is areal — a single SSBG polygon may cover 50+ buildings. Buildings are the actual dwelling units. Elevation-weighting ensures high-rise residential towers receive proportionally more population than low-rise structures, producing a more realistic distribution.
+Census data is areal, a single SSBG polygon may cover 50+ buildings. Buildings are the actual dwelling units. Elevation-weighting ensures high-rise residential towers receive proportionally more population than low-rise structures, producing a more realistic distribution.
 
 ### Formula
 
@@ -321,7 +321,7 @@ Creates a regular fishnet grid (default 50m × 50m) covering the study area, the
 
 ### Why 50m Cells?
 
-50m resolution provides fine-grained spatial detail for facility-level prediction while keeping computation tractable. At 1,500m buffer, approximately 3,600 grid cells are generated — enough for GWR's local regressions without excessive runtime.
+50m resolution provides fine-grained spatial detail for facility-level prediction while keeping computation tractable. At 1,500m buffer, approximately 3,600 grid cells are generated, enough for GWR's local regressions without excessive runtime.
 
 ### Indicators Computed
 
@@ -337,8 +337,8 @@ The pipeline supports additional indicators (LUCC type, transit proximity) by ex
 
 | Layer | Geometry | Required Fields |
 |-------|----------|-----------------|
-| `site_fc` | Polygon | — |
-| `poi_fc` | Point | — |
+| `site_fc` | Polygon |, |
+| `poi_fc` | Point |, |
 | `pop_fc` | Polygon | Population count |
 | `roads_fc` | Line | Length field |
 
@@ -381,7 +381,7 @@ poi_count_i = β₀(uᵢ, vᵢ) + β₁(uᵢ, vᵢ)·pop_density_i + β₂(uᵢ,
 
 ### Why GWR over OLS?
 
-An OLS model would ask: "What is THE relationship between population density and POI count across the entire study area?" But the answer differs by location — near the metro station, population density is the dominant predictor; in peripheral areas, road access is what matters. GWR estimates **local coefficients** at every grid cell.
+An OLS model would ask: "What is THE relationship between population density and POI count across the entire study area?" But the answer differs by location, near the metro station, population density is the dominant predictor; in peripheral areas, road access is what matters. GWR estimates **local coefficients** at every grid cell.
 
 ### Input Schema
 
@@ -395,7 +395,7 @@ All fields must be numeric. Nulls are replaced with 0 before fitting.
 
 | Field | Description |
 |-------|-------------|
-| `R2` | Local R² — model fit at each location |
+| `R2` | Local R², model fit at each location |
 | `Residual` | Observed − Predicted |
 | `StdResidual` | Standardised residual (> |2.5| = outlier) |
 | `AICc` | Corrected Akaike Information Criterion |
@@ -420,13 +420,13 @@ All fields must be numeric. Nulls are replaced with 0 before fitting.
 |----------|-----|
 | Grid cells are evenly spaced (fishnet) | `DISTANCE_BAND` |
 | Point density varies (some areas sparse, others dense) | `NUMBER_OF_NEIGHBORS` |
-| Unknown — let the tool decide | `NUMBER_OF_NEIGHBORS` + `GOLDEN_SEARCH` |
+| Unknown, let the tool decide | `NUMBER_OF_NEIGHBORS` + `GOLDEN_SEARCH` |
 
 ### Diagnostics
 
 | Diagnostic | Good | Bad |
 |-----------|------|-----|
-| **Local R²** | > 0.4 at most locations | < 0.1 globally — model explains little |
+| **Local R²** | > 0.4 at most locations | < 0.1 globally, model explains little |
 | **StdResidual** | |z| < 2.5 for 95%+ of cells | Clusters of > |2.5| → missing variable or spatial process |
 | **AICc** | Lower relative to alternative models | Higher than OLS → GWR not helping |
 | **Condition Number** | < 30 | > 30 → local multicollinearity. Increase `min_neighbors` or drop a correlated variable |
@@ -453,9 +453,9 @@ The prediction grid must have the **same field names** as the training data's ex
 | Variable | Current (2025) | Future (2033) | Growth Factor | Source |
 |----------|---------------|---------------|---------------|--------|
 | Population | 100,531 (600m catchment) | ~320,000 | ×3.18 | TCNTE gov projections |
-| Population on-site | 0 | 12,000-22,000 | — | TCNTE East development |
+| Population on-site | 0 | 12,000-22,000 |, | TCNTE East development |
 | Road density | Existing network | +40% (new internal roads) | ×1.4 on TCNTE cells | Infrastructure plan |
-| GFA | Existing Citygate | +877,000 m² | — | TCNTE zoning |
+| GFA | Existing Citygate | +877,000 m² |, | TCNTE zoning |
 
 ### Input Schema
 
@@ -474,8 +474,8 @@ The prediction grid must have the **same field names** as the training data's ex
 
 | Parameter | Default | Description |
 |-----------|---------|-------------|
-| `prediction_fc` | — | Path to future scenario grid |
-| `explanatory` | — | Must match training `explanatory_vars` list |
+| `prediction_fc` |, | Path to future scenario grid |
+| `explanatory` |, | Must match training `explanatory_vars` list |
 
 ### Growth Factor Guidelines (Hong Kong)
 
@@ -494,7 +494,7 @@ The prediction grid must have the **same field names** as the training data's ex
 
 ## Step 5b: Pedestrian Network Flow Assignment
 
-Supplementary analysis modeling how people move through the pedestrian network to reach the site. Complements grid-level GWR by providing the **human-scale lens** — which specific paths, crossings, and entry points experience highest flow.
+Supplementary analysis modeling how people move through the pedestrian network to reach the site. Complements grid-level GWR by providing the **human-scale lens**, which specific paths, crossings, and entry points experience highest flow.
 
 **Script**: `scripts/step5_net_assign.py`
 
@@ -522,13 +522,13 @@ Gap detection: detour ratio = network_distance / straight_line > threshold
 
 | Layer | Geometry | Required Fields | Notes |
 |-------|----------|-----------------|-------|
-| `site_fc` | Polygon | — | Destination |
+| `site_fc` | Polygon |, | Destination |
 | `roads_fc` | Line | Length + travel time | `time_walk` preferred; fallback: length / 1.25 m/s |
 | `pop_fc` | Polygon | Population count, SSBG ID | Census blocks intersecting study buffer |
 
 ### Output Schema
 
-**`link_loads_200m`** — loaded edges within 200m of site:
+**`link_loads_200m`**, loaded edges within 200m of site:
 
 | Field | Type | Description |
 |-------|------|-------------|
@@ -539,7 +539,7 @@ Gap detection: detour ratio = network_distance / straight_line > threshold
 | `LOS` | TEXT(4) | Level of Service (B-E) |
 | `load_norm` | DOUBLE | Normalized load (0-100%) |
 
-**`gap_zones`** — straight-line connections showing detour problems:
+**`gap_zones`**, straight-line connections showing detour problems:
 
 | Field | Type | Description |
 |-------|------|-------------|
@@ -555,11 +555,11 @@ Gap detection: detour ratio = network_distance / straight_line > threshold
 
 | LOS | Flow (ped/m/min) | Condition |
 |-----|------------------|-----------|
-| **A** | — | (not classified — negligible) |
+| **A** |, | (not classified, negligible) |
 | **B** | < 0.38 | Free flow |
 | **C** | 0.38 – 0.55 | Slightly restricted |
-| **D** | 0.55 – 0.82 | Noticeable restriction — intervention recommended |
-| **E** | ≥ 0.82 | At capacity — redesign required |
+| **D** | 0.55 – 0.82 | Noticeable restriction, intervention recommended |
+| **E** | ≥ 0.82 | At capacity, redesign required |
 
 ### Trip Generation Rates (TPDM)
 
@@ -584,7 +584,7 @@ Gap detection: detour ratio = network_distance / straight_line > threshold
 
 ### Pitfalls
 
-1. **Disconnected graph**: If the building and site belong to different connected components, routing fails → "CRITICAL" gap. This is correct behaviour — it flags a genuine connectivity problem. The Tung Chung case had exactly 1 such gap (SSBG 950/01-02, no footbridge across the main road).
+1. **Disconnected graph**: If the building and site belong to different connected components, routing fails → "CRITICAL" gap. This is correct behaviour, it flags a genuine connectivity problem. The Tung Chung case had exactly 1 such gap (SSBG 950/01-02, no footbridge across the main road).
 2. **Restricted access edges**: If your road data has a `rest_walk` flag, segments with walking restrictions will be penalised (travel time ×10) to route pedestrians away from them. Without this, the model may send pedestrians along roads not actually walkable.
 
 ### Tung Chung Results
@@ -597,7 +597,7 @@ Catchment: 100,531 population, 5 SSBGs within 600m
 Loaded edges (within 200m): 182
 LOS E (redesign needed): 50 segments
 Gap zones: 1 CRITICAL (no path across highway), 1 HIGH (1.69× detour)
-Top detour: 950/36 — 857 trips/hr, 832m straight → 1,410m network (elongated block)
+Top detour: 950/36, 857 trips/hr, 832m straight → 1,410m network (elongated block)
 ```
 
 **Design implications**: Widen north-south approach paths, add a grade-separated pedestrian link to SSBG 950/01-02, and provide direct connections through elongated residential blocks.
@@ -610,14 +610,14 @@ Top detour: 950/36 — 857 trips/hr, 832m straight → 1,410m network (elongated
 
 After running Step 4, open `gwr_results` in GIS:
 
-1. **Local R²** → Identify where the model explains facility distribution well (R² > 0.4) vs. poorly (R² < 0.1). Low R² areas suggest missing explanatory variables — consider adding transit proximity or LUCC type.
+1. **Local R²** → Identify where the model explains facility distribution well (R² > 0.4) vs. poorly (R² < 0.1). Low R² areas suggest missing explanatory variables, consider adding transit proximity or LUCC type.
 2. **Pop_density coefficient (β₁)** → Positive values indicate population density drives POI count (expected near transit). Near-zero or negative values indicate other factors dominate (e.g. land-use zoning, road access).
-3. **StdResidual clusters** → Hotspots of > |2.5| suggest spatial processes not captured by the model — possibly agglomeration effects, zoning constraints, or historical path-dependency.
+3. **StdResidual clusters** → Hotspots of > |2.5| suggest spatial processes not captured by the model, possibly agglomeration effects, zoning constraints, or historical path-dependency.
 
 ### Reading Flow Assignment Maps
 
 1. **LOS distribution** → The ratio of LOS E to total loaded edges tells you whether the pedestrian network is adequate. >10% LOS E = significant redesign needed.
-2. **Gap priority** → Address CRITICAL gaps (no path) first — these represent total disconnect. Then HIGH gaps (detour >1.4×) — these indicate unnecessarily elongated routes.
+2. **Gap priority** → Address CRITICAL gaps (no path) first, these represent total disconnect. Then HIGH gaps (detour >1.4×), these indicate unnecessarily elongated routes.
 3. **Flow concentration** → If >50% of flow is on <10% of edges, those edges are pinch-points. Consider parallel routes or wider footpaths.
 
 ### QGIS Symbology Reference
@@ -633,15 +633,15 @@ After running Step 4, open `gwr_results` in GIS:
 
 ## Built-in Classification Dictionaries
 
-### Daytime (offices, education, administration) — Time Class 1
+### Daytime (offices, education, administration), Time Class 1
 
 `公司` `知名企业` `公司企业` `银行` `金融保险服务机构` `银行相关` `中介机构` `邮局` `物流速递` `家居建材市场` `花鸟鱼虫市场` `维修站点` `摄影冲印店` `学校` `培训机构` `科研机构` `传媒机构` `文艺团体` `会展中心` `住宅区`
 
-### Nighttime (evening F&B, leisure, nightlife) — Time Class 2
+### Nighttime (evening F&B, leisure, nightlife), Time Class 2
 
 `休闲餐饮场所` `茶艺馆` `冷饮店` `休闲场所`
 
-### All-Day (retail, healthcare, sports, hotels, civic) — Time Class 3
+### All-Day (retail, healthcare, sports, hotels, civic), Time Class 3
 
 `中餐厅` `外国餐厅` `快餐厅` `咖啡厅` `糕饼店` `甜品店` `餐饮相关场所` `便民商店/便利店` `超级市场` `商场` `专卖店` `服装鞋帽皮具店` `体育用品店` `家电电子卖场` `个人用品/化妆品店` `文化用品店` `购物相关场所` `宾馆酒店` `旅馆招待所` `美容美发店` `洗衣店` `自动提款机` `电讯营业厅` `旅行社` `生活服务场所` `诊所` `综合医院` `专科医院` `急救中心` `医药保健销售店` `医疗保健服务场所` `图书馆` `博物馆` `美术馆` `展览馆` `科教文化场所` `科技馆` `天文馆` `文化宫` `运动场馆` `体育休闲服务场所` `高尔夫相关`
 
@@ -761,7 +761,7 @@ The pipeline was validated against the original Python-based analysis (`Analysis
 | Network Assignment | Critical gaps | 1 | 1 | 100% |
 | Network Assignment | LOS E segments | 50 | Reproduced | ✓ |
 
-Minor differences in GWR metrics are attributable to `arcpy.stats.GWR` using a bisquare kernel vs. `mgwr` library's adaptive bandwidth — both produce spatially consistent coefficient maps.
+Minor differences in GWR metrics are attributable to `arcpy.stats.GWR` using a bisquare kernel vs. `mgwr` library's adaptive bandwidth, both produce spatially consistent coefficient maps.
 
 ---
 
@@ -775,7 +775,7 @@ gwr-pipeline/
 ├── .gitignore
 └── scripts/
     ├── _utils.py                 # Shared field resolution utility
-    ├── master_pipeline.py        # Orchestrator — run this
+    ├── master_pipeline.py        # Orchestrator, run this
     ├── step1_classify_poi.py     # POI time-of-day classification
     ├── step2_pop_allocate.py     # Dasymetric population to buildings
     ├── step3_build_grid.py       # Fishnet grid + indicator spatial join

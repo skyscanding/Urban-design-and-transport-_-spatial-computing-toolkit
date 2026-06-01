@@ -1,25 +1,25 @@
 """
-GWR Pipeline — Step 3: Grid Creation + Indicator Spatial Join
+GWR Pipeline, Step 3: Grid Creation + Indicator Spatial Join
 ===============================================================
 Creates a fishnet grid over the study area and computes built-environment
 indicators per grid cell: POI count, population density, road density.
 
 Input:
-  - site_fc: str           — site boundary feature class
-  - poi_fc: str            — POI feature class
-  - pop_fc: str            — population feature class
-  - roads_fc: str          — road network feature class
-  - output_gdb: str        — output GDB
-  - cell_size: float        — grid cell size in metres (default 50)
-  - study_buffer: float     — buffer distance around site (default 1500m)
-  - pop_field: str          — population count field
-  - road_length_field: str  — road segment length field (e.g. 'Shape_Leng')
-  - crs: str                — spatial reference (e.g. 'EPSG:2326')
+  - site_fc: str         , site boundary feature class
+  - poi_fc: str          , POI feature class
+  - pop_fc: str          , population feature class
+  - roads_fc: str        , road network feature class
+  - output_gdb: str      , output GDB
+  - cell_size: float      , grid cell size in metres (default 50)
+  - study_buffer: float   , buffer distance around site (default 1500m)
+  - pop_field: str        , population count field
+  - road_length_field: str, road segment length field (e.g. 'Shape_Leng')
+  - crs: str              , spatial reference (e.g. 'EPSG:2326')
 
 Output (in output_gdb):
-  - grid_indicators_full    — grid FC with poi_count, pop_density, road_density
-  - grid_active_cells       — subset where poi_count > 0
-  - study_area_<N>m         — buffer polygon defining study extent
+  - grid_indicators_full  , grid FC with poi_count, pop_density, road_density
+  - grid_active_cells     , subset where poi_count > 0
+  - study_area_<N>m       , buffer polygon defining study extent
 
 Usage:
   python step3_build_grid.py --config my_config.py

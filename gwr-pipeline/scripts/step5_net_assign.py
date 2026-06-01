@@ -1,30 +1,30 @@
 """
-GWR Pipeline — Step 5 (Supplementary): Pedestrian Network Flow Assignment
+GWR Pipeline, Step 5 (Supplementary): Pedestrian Network Flow Assignment
 ===========================================================================
 Builds a pedestrian graph from road network and distributes trips from
 population origins to a destination using shortest-path routing.
 Computes LOS (Level of Service) and detects connectivity gaps.
 
-This step is supplementary to the GWR pipeline — it provides the human-scale
+This step is supplementary to the GWR pipeline, it provides the human-scale
 pedestrian flow context that complements the grid-level GWR prediction.
 
 Dependencies: networkx, scipy, shapely (install if missing)
 
 Input:
-  - site_fc: str            — destination site boundary FC
-  - roads_fc: str           — road/pedestrian network FC
-  - pop_fc: str             — population origins FC
-  - output_gdb: str         — output GDB
-  - pop_field: str           — population count field
-  - program_type: str        — land-use program (for trip generation rate)
-  - walkway_width: float     — effective walkway width (m)
-  - clip_buffer: float       — buffer distance around site for network (m)
-  - gap_threshold: float     — detour ratio above which a gap is flagged
+  - site_fc: str          , destination site boundary FC
+  - roads_fc: str         , road/pedestrian network FC
+  - pop_fc: str           , population origins FC
+  - output_gdb: str       , output GDB
+  - pop_field: str         , population count field
+  - program_type: str      , land-use program (for trip generation rate)
+  - walkway_width: float   , effective walkway width (m)
+  - clip_buffer: float     , buffer distance around site for network (m)
+  - gap_threshold: float   , detour ratio above which a gap is flagged
 
 Output (in output_gdb):
-  - link_loads_200m          — loaded edges within 200m of site with LOS
-  - gap_zones                — straight-line connections showing gaps
-  - site_buf200 / site_buf600 — buffer polygons
+  - link_loads_200m        , loaded edges within 200m of site with LOS
+  - gap_zones              , straight-line connections showing gaps
+  - site_buf200 / site_buf600, buffer polygons
 
 Usage:
   python step5_net_assign.py --config my_config.py

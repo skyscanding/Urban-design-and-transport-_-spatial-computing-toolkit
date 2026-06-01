@@ -1,21 +1,21 @@
 """
-GWR Pipeline — Step 1: POI Time-of-Day Classification
+GWR Pipeline, Step 1: POI Time-of-Day Classification
 =======================================================
 Reclassifies facility/POI datasets into time-of-day operation classes
 based on a configurable category mapping dictionary.
 
 Input:
-  - poi_layers: dict[str, str]  — {category_name: path_to_feature_class}
-  - day_midtypes: set[str]       — midType values for daytime operation
-  - night_midtypes: set[str]     — midType values for nighttime operation
-  - both_midtypes: set[str]      — midType values for all-day operation
-  - output_gdb: str              — path to output File Geodatabase
+  - poi_layers: dict[str, str], {category_name: path_to_feature_class}
+  - day_midtypes: set[str]     , midType values for daytime operation
+  - night_midtypes: set[str]   , midType values for nighttime operation
+  - both_midtypes: set[str]    , midType values for all-day operation
+  - output_gdb: str            , path to output File Geodatabase
 
 Output (in output_gdb):
-  - poi_all_time_classified      — merged FC with 'time_class', 'category' fields
-  - poi_time_daytime             — daytime-only subset
-  - poi_time_nighttime           — nighttime-only subset
-  - poi_time_both                — all-day subset
+  - poi_all_time_classified    , merged FC with 'time_class', 'category' fields
+  - poi_time_daytime           , daytime-only subset
+  - poi_time_nighttime         , nighttime-only subset
+  - poi_time_both              , all-day subset
 
 Usage:
   python step1_classify_poi.py --config my_config.py

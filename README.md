@@ -1,17 +1,17 @@
 # Spatial Computing Toolkit
 
-GIS analysis pipelines for urban spatial computing research — developed and validated on the **Tung Chung TOD** case study (Hong Kong).
+GIS analysis pipelines for urban spatial computing research, developed and validated on the **Tung Chung TOD** case study (Hong Kong).
 
 ## What's Inside
 
 | Tool | Description | Runtime | License |
 |------|-------------|---------|---------|
-| [**QGIS Cookbook**](qgis-cookbook/) | 300+ CLI recipes for spatial analysis — no GUI needed | QGIS 3.x (free) | MIT |
+| [**QGIS Cookbook**](qgis-cookbook/) | 300+ CLI recipes for spatial analysis, no GUI needed | QGIS 3.x (free) | MIT |
 | [**GWR Pipeline**](gwr-pipeline/) | 6-step arcpy pipeline: POI classification → dasymetric population → indicator grid → GWR fit → future prediction → network flow assignment | ArcGIS Pro 3.x | MIT |
 
 ## QGIS Cookbook
 
-A comprehensive **QGIS 3.44** command-line reference covering the full spatial analysis workflow. Everything via `qgis_process` and GDAL — no mouse clicks.
+A comprehensive **QGIS 3.44** command-line reference covering the full spatial analysis workflow. Everything via `qgis_process` and GDAL, no mouse clicks.
 
 **What you can do:**
 - Data exploration (`ogrinfo`, `gdalinfo`)
@@ -31,7 +31,7 @@ Includes 4 complete, copy-paste-ready bash script workflows for common spatial d
 
 ## GWR Pipeline
 
-An automated arcpy pipeline that uses **Geographically Weighted Regression** to model how facility distribution relates to built-environment indicators — then predicts future distribution under population and infrastructure growth scenarios.
+An automated arcpy pipeline that uses **Geographically Weighted Regression** to model how facility distribution relates to built-environment indicators, then predicts future distribution under population and infrastructure growth scenarios.
 
 **Validated against**: Tung Chung Tat Tung Road Bus Terminus (4.61 ha TOD site, 100k+ catchment population, TCNTE 2033 projections).
 
@@ -46,7 +46,7 @@ Step 5: Future Prediction            → Apply model to TCNTE 2033 scenario
 Step 5b: Network Flow Assignment     → Pedestrian LOS + gap detection (networkx)
 ```
 
-Fully configurable via JSON. Robust field-name resolution — set your column names once, scripts auto-detect or fail with clear messages.
+Fully configurable via JSON. Robust field-name resolution, set your column names once, scripts auto-detect or fail with clear messages.
 
 📖 **[Read the full documentation →](gwr-pipeline/)**
 
@@ -105,7 +105,7 @@ Both tools were developed for the **Tung Chung Tat Tung Road Bus Terminus** desi
 
 - **Site**: 4.61 ha, Sports Centre programme
 - **Data**: 1,184 POIs, 598 buildings, 2,408 road segments, 100,531 catchment population
-- **Future scenario**: TCNTE 2033 — population 116k → 320k, +877,000 m² GFA
+- **Future scenario**: TCNTE 2033, population 116k → 320k, +877,000 m² GFA
 - **Key findings**: 50 pedestrian segments at LOS E (capacity exceeded), 1 critical connectivity gap across highway, evening economy gap identified via POI time classification
 
 ---
@@ -217,7 +217,7 @@ python gwr-pipeline/scripts/master_pipeline.py my_project.json
 
 - **地块**：4.61 公顷，Sports Centre 功能定位
 - **数据**：1,184 个 POI、598 栋建筑、2,408 条道路分段、覆盖 100,531 人口
-- **未来情景**：TCNTE 2033 规划 — 人口从 11.6 万增至 32 万，新增 877,000 m² 建筑面积
+- **未来情景**：TCNTE 2033 规划, 人口从 11.6 万增至 32 万，新增 877,000 m² 建筑面积
 - **关键发现**：50 段人行道 LOS E（容量不足），1 处穿越主干道的严重断连，POI 时段分类揭示了夜间经济缺口
 
 ## License
