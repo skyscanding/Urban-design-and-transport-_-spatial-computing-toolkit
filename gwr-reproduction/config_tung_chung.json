@@ -1,0 +1,73 @@
+{
+  "_description": "Tung Chung TOD GWR reproduction config. Edit the data paths to your machine; the modelling parameters below match the original GWR_Prediction_v3 run.",
+
+  "output_dir": "D:/HKU/SEM2/Studio/Analysis/GWR_Reproduction/",
+
+  "data": {
+    "site_fc":          "D:/HKU/SEM2/Studio/Analysis/Designsite.shp",
+    "land_fc":          "D:/HKU/SEM2/Studio/Analysis/Analysis_try6/Newplanning_gov/Land_range.gpkg",
+    "airport_fc":       "D:/HKU/SEM2/Studio/Analysis/Analysis_try6/Newplanning_gov/Airport_range.gpkg",
+    "pop_fc":           "D:/HKU/SEM2/Studio/Analysis/HK_population.gpkg",
+    "roads_fc":         "D:/HKU/SEM2/Studio/WEEK4remote/HK_roads.gpkg",
+    "lucc_fc":          "D:/HKU/SEM2/Studio/Analysis/Analysis_try3/Landuse/LandUse_Vector_Polygons.gpkg",
+    "bus_fc":           "D:/HKU/SEM2/Studio/Analysis/Analysis_try3/Calculation/Result_Stations_InROI.shp",
+    "tcnte_east_bbox":  "D:/HKU/SEM2/Studio/Analysis/Analysis_try6/Newplanning_gov/tcnte_east_bbox.gpkg",
+    "tcnte_west_bbox":  "D:/HKU/SEM2/Studio/Analysis/Analysis_try6/Newplanning_gov/tcnte_west_bbox.gpkg",
+    "town_center_bbox": null,
+
+    "poi_sources": [
+      "D:/HKU/SEM2/Studio/Analysis/Analysis_try6/New_POIs/购物服务.shp",
+      "D:/HKU/SEM2/Studio/Analysis/Analysis_try6/New_POIs/餐饮服务.shp",
+      "D:/HKU/SEM2/Studio/Analysis/Analysis_try6/New_POIs/公司企业.shp",
+      "D:/HKU/SEM2/Studio/Analysis/Analysis_try6/New_POIs/金融保险服务.shp",
+      "D:/HKU/SEM2/Studio/Analysis/Analysis_try6/New_POIs/住宿服务.shp",
+      "D:/HKU/SEM2/Studio/Analysis/Analysis_try6/New_POIs/生活服务.shp",
+      "D:/HKU/SEM2/Studio/Analysis/Analysis_try6/New_POIs/科教文化服务.shp",
+      "D:/HKU/SEM2/Studio/Analysis/Analysis_try6/New_POIs/医疗保健服务.shp",
+      "D:/HKU/SEM2/Studio/Analysis/Analysis_try6/New_POIs/商务住宅.shp",
+      "D:/HKU/SEM2/Studio/Analysis/Analysis_try6/New_POIs/体育休闲服务.shp"
+    ]
+  },
+
+  "field_mapping": {
+    "population_count": "Averag_pop",
+    "poi_midtype":      "midType",
+    "road_length":      "Shape_Leng",
+    "lucc_code":        "type_code"
+  },
+
+  "params": {
+    "cell_size":        100,
+    "study_buffer":     1500,
+    "urban_code_max":   54,
+    "pop_is_density":   false,
+    "min_active_cells": 20,
+    "transit_radius":   500
+  },
+
+  "poi_rules": {
+    "commercial": {
+      "include": ["购物", "餐饮", "公司", "企业", "金融", "保险", "住宿", "宾馆", "酒店", "生活服务"],
+      "exclude": ["工厂", "农林牧渔", "动物医疗"]
+    },
+    "community": {
+      "include": ["科教", "文化", "学校", "培训", "科研", "医疗", "医院", "诊所", "社区中心"],
+      "exclude": ["动物医疗"]
+    },
+    "sports_rec": {
+      "include": ["运动场馆", "休闲场所", "高尔夫", "体育休闲服务场所"],
+      "exclude": ["酒吧", "电影院", "影剧院", "养老院"]
+    }
+  },
+
+  "growth_factors": {
+    "_doc": "Per-zone multipliers applied to each explanatory variable for the TCNTE 2033 scenario. transit_access is capped at 1.0 after multiplication.",
+    "multipliers": {
+      "pop_density":    {"tcnte_east": 4.0, "tcnte_west": 3.0, "town_center": 1.10, "design_site": 2.0, "periphery": 1.05},
+      "road_density":   {"tcnte_east": 3.5, "tcnte_west": 2.0, "town_center": 1.05, "design_site": 1.8, "periphery": 1.00},
+      "bus_density":    {"tcnte_east": 2.5, "tcnte_west": 1.8, "town_center": 1.10, "design_site": 3.0, "periphery": 1.00},
+      "transit_access": {"tcnte_east": 2.5, "tcnte_west": 1.8, "town_center": 1.10, "design_site": 3.0, "periphery": 1.00}
+    },
+    "lucc_targets": {"tcnte_east": 0.90, "tcnte_west": 0.75, "design_site": 0.85}
+  }
+}

@@ -1,0 +1,9 @@
+geopandas>=1.0
+mgwr>=2.2
+libpysal>=4.9
+scipy>=1.10
+numpy>=1.24
+pandas>=2.0
+shapely>=2.0
+pyproj>=3.5
+matplotlib>=3.7
