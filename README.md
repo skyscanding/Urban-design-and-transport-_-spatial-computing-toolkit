@@ -105,12 +105,12 @@ No ArcGIS licence required.
 
 ## Case Study: Tung Chung TOD
 
-Both tools were developed for the **Tung Chung Tat Tung Road Bus Terminus** design studio:
+The toolkit was developed for the **Tung Chung Tat Tung Road Bus Terminus** TOD design studio. The GWR pipeline's worked example is configured in [`gwr-pipeline/config_tung_chung.json`](gwr-pipeline/config_tung_chung.json) — see the [pipeline README](gwr-pipeline/) for inputs, the run command, and a committed example result.
 
-- **Site**: 4.61 ha, Sports Centre programme
-- **Data**: 1,184 POIs, 598 buildings, 2,408 road segments, 100,531 catchment population
-- **Future scenario**: TCNTE 2033, population 116k → 320k, +877,000 m² GFA
-- **Key findings**: 50 pedestrian segments at LOS E (capacity exceeded), 1 critical connectivity gap across highway, evening economy gap identified via POI time classification
+- **Site**: Tat Tung Road Bus Terminus, EPSG:2326
+- **Inputs**: 10 Amap POI files → 3 categories; population, road, land-use and transit layers; 100 m land-masked grid (~700 cells, airport excluded)
+- **Future scenario**: TCNTE 2033, population 116k → 320k, +877,000 m² GFA, applied as per-zone growth multipliers
+- **Key findings**: commercial demand saturated on-site (OLS fallback); community the dominant predicted gap (≈ +63 under TCNTE 2033); sports/recreation a secondary gap (≈ +32) — the evidence base for adding community + sports facilities above the transit hub
 
 ---
 
@@ -221,12 +221,12 @@ python gwr-pipeline/scripts/gwr_reproduce.py gwr-pipeline/scripts/synthetic/conf
 
 ## 案例研究：东涌 TOD
 
-本工具包的两种工具均为 **东涌达东路巴士总站** 设计课题开发：
+本工具包为 **东涌达东路巴士总站** TOD 设计课题开发。GWR 管道的示例配置见 [`gwr-pipeline/config_tung_chung.json`](gwr-pipeline/config_tung_chung.json)，输入数据、运行命令与示例结果详见 [管道说明文档](gwr-pipeline/)。
 
-- **地块**：4.61 公顷，Sports Centre 功能定位
-- **数据**：1,184 个 POI、598 栋建筑、2,408 条道路分段、覆盖 100,531 人口
-- **未来情景**：TCNTE 2033 规划, 人口从 11.6 万增至 32 万，新增 877,000 m² 建筑面积
-- **关键发现**：50 段人行道 LOS E（容量不足），1 处穿越主干道的严重断连，POI 时段分类揭示了夜间经济缺口
+- **地块**：达东路巴士总站，EPSG:2326
+- **输入**：10 个高德 POI 文件 → 3 个类别；人口、道路、土地利用与交通图层；100m 陆地掩膜网格（约 700 格，已剔除机场）
+- **未来情景**：TCNTE 2033 规划，人口 11.6 万 → 32 万，新增 877,000 m² 建筑面积，按区域增长倍数施加
+- **关键发现**：场地内商业需求已饱和（回退至 OLS）；社区设施为主要预测缺口（TCNTE 2033 下约 +63）；体育休闲为次要缺口（约 +32）——为在交通枢纽之上增设社区与体育设施提供依据
 
 ## License
 

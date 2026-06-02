@@ -1,0 +1,4 @@
+category,on_site_current,on_site_predicted,change,mode
+commercial,2.0,4.6,2.6,gwr
+community,0.0,3.3,3.3,gwr
+sports_rec,0.0,2.0,2.0,ols

@@ -102,3 +102,12 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# Pipeline-generated data & run outputs (commit curated examples/ PNG+CSV only)
+gwr-pipeline/scripts/synthetic/
+*.gpkg
+*.shp
+*.shx
+*.dbf
+*.prj
+*.cpg

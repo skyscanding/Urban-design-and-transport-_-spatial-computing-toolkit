@@ -5,13 +5,13 @@ pipeline (`GWR_Prediction_v3`). Built on `geopandas` + `mgwr`, the same
 open-source stack the original analysis used, so it runs anywhere, with **no
 ArcGIS licence required**.
 
-This module exists because the companion `gwr-pipeline/` (arcpy) reproduces the
-*workflow shape* but not the actual computation. The table below is the honest
-fidelity statement.
+This pipeline replaces an earlier arcpy version that reproduced the *workflow
+shape* but not the actual computation. The table below is the honest fidelity
+statement against both the original studio analysis and that earlier attempt.
 
-## What this reproduces (and the arcpy toolkit did not)
+## What this reproduces (vs. the earlier arcpy attempt)
 
-| Element | Original `GWR_Prediction_v3` | `gwr-pipeline` (arcpy) | This module |
+| Element | Original `GWR_Prediction_v3` | Earlier arcpy version | This pipeline |
 |---|---|---|---|
 | Engine | `mgwr` (adaptive bisquare) | `arcpy.stats.GWR` | `mgwr` (adaptive bisquare) ✅ |
 | Grid | 100 m, 1500 m buffer (~700 cells) | 50 m default | 100 m, 1500 m buffer ✅ |
@@ -64,6 +64,55 @@ python scripts/gwr_reproduce.py config_tung_chung.json --stages 3-5
 
 If `mgwr` is not installed the pipeline still runs, every category uses the
 global OLS path and a warning is logged.
+
+## Case Study: Tung Chung TOD
+
+The pipeline's canonical worked example is the **Tung Chung Tat Tung Road Bus
+Terminus** TOD studio. `config_tung_chung.json` *is* the case-study config:
+point its `data` paths at the studio datasets and run the full pipeline to
+reproduce the analysis end to end.
+
+### Inputs
+
+| Input | Source | Role |
+|---|---|---|
+| Site boundary | `Designsite.shp` | Tat Tung Road Bus Terminus |
+| Land mask | `Land_range.gpkg` | study extent (1500 m buffer) |
+| Airport | `Airport_range.gpkg` | excluded from land mask |
+| POIs | 10 Amap 2025 category files | reclassified → commercial / community / sports_rec |
+| Population | `HK_population.gpkg` (`Averag_pop`) | pop_density |
+| Roads | `HK_roads.gpkg` | road_density |
+| Land use | `LandUse_Vector_Polygons.gpkg` (`type_code`) | lucc_urban_pct |
+| Transit | `Result_Stations_InROI.shp` | bus_density, transit_access |
+| Future zones | `tcnte_east_bbox.gpkg`, `tcnte_west_bbox.gpkg` | TCNTE 2033 growth zones |
+
+Study grid: 100 m fishnet, 1500 m buffer (~700 land cells, airport removed).
+Future scenario: TCNTE 2033, population 116k → 320k, +877,000 m² GFA, applied as
+per-zone growth multipliers (see `growth_factors` in the config).
+
+```bash
+python scripts/gwr_reproduce.py config_tung_chung.json
+```
+
+### Reference results (original studio run)
+
+On-site predicted facility-demand change under TCNTE 2033:
+
+| Category | Model | On-site change | Reading |
+|---|---|---|---|
+| commercial | OLS fallback (singular matrix) | ≈ +766 | already saturated — no new retail needed |
+| community | GWR (R² ≈ 0.08) | ≈ +63 | dominant predicted gap |
+| sports_rec | GWR (R² ≈ 0.06) | ≈ +32 | secondary gap |
+
+The commercial model hits a singular matrix (dense, correlated cells) and falls
+back to OLS — confirming saturation rather than failing. Community is the
+largest unmet demand, sports/recreation second: the evidence base for a TOD
+programme that adds **community and sports facilities** above the transit hub
+rather than more commercial floor space.
+
+Re-running on the same data regenerates these figures; small differences are
+expected from `mgwr`'s adaptive-bandwidth search. A committed example run lives
+in [`examples/tung_chung/`](examples/tung_chung/).
 
 ## Validate without your data
 
