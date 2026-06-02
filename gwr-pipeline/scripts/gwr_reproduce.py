@@ -1,5 +1,5 @@
 """
-GWR Reproduction Pipeline — Tung Chung TOD facility-demand prediction
+GWR Reproduction Pipeline, Tung Chung TOD facility-demand prediction
 =====================================================================
 Open-source (geopandas + mgwr) reproduction of the original studio pipeline
 (GWR_Prediction_v3). Faithfully replicates the analytically load-bearing
@@ -103,7 +103,7 @@ def classify_poi(gdf, midtype_field, rules):
 
 
 # =============================================================================
-# STAGE 1 — site, study area, land mask (airport excluded)
+# STAGE 1, site, study area, land mask (airport excluded)
 # =============================================================================
 def stage_land(cfg):
     banner("STAGE 1: SITE + STUDY AREA + LAND MASK")
@@ -130,7 +130,7 @@ def stage_land(cfg):
 
 
 # =============================================================================
-# STAGE 2 — reclassify POIs into 3 categories
+# STAGE 2, reclassify POIs into 3 categories
 # =============================================================================
 def stage_poi(cfg, study_gdf):
     banner("STAGE 2: RECLASSIFY POIs -> 3 CATEGORIES")
@@ -152,7 +152,7 @@ def stage_poi(cfg, study_gdf):
         frames.append(cl[["category", "geometry"]])
         log(f"{p.name}: {len(cl)} classified")
     if not frames:
-        raise SystemExit("No POIs classified — check poi_sources / rules.")
+        raise SystemExit("No POIs classified, check poi_sources / rules.")
     poi = gpd.GeoDataFrame(pd.concat(frames, ignore_index=True), crs=CRS_PROJ)
     for c in CATEGORIES:
         log(f"  {c:12s}: {(poi['category'] == c).sum()} POIs")
@@ -160,7 +160,7 @@ def stage_poi(cfg, study_gdf):
 
 
 # =============================================================================
-# STAGE 3 — 100 m fishnet, land-masked
+# STAGE 3, 100 m fishnet, land-masked
 # =============================================================================
 def make_fishnet(land_gdf, cell):
     minx, miny, maxx, maxy = land_gdf.total_bounds
@@ -185,7 +185,7 @@ def stage_grid(cfg, land_gdf):
 
 
 # =============================================================================
-# STAGE 4 — join 5 indicators + 3 POI counts to each cell
+# STAGE 4, join 5 indicators + 3 POI counts to each cell
 # =============================================================================
 def count_points_in_cells(grid, pts):
     if len(pts) == 0:
@@ -297,7 +297,7 @@ def stage_indicators(cfg, grid, poi, pop_gdf, roads, lucc, bus):
 
 
 # =============================================================================
-# STAGE 5 — fit 3 GWR models (mgwr) with OLS fallback
+# STAGE 5, fit 3 GWR models (mgwr) with OLS fallback
 # =============================================================================
 def ols_fit(Xs, y):
     """Global OLS with intercept. Returns params vector length k+1."""
@@ -315,7 +315,7 @@ def fit_one_gwr(active, x_cols, ycol, min_active=20):
     n = len(active)
     log(f"Active: {n}")
     if n < min_active or active[ycol].std() == 0:
-        log("  -> too few active cells / no variance — OLS fallback")
+        log("  -> too few active cells / no variance, OLS fallback")
         mode = "ols"
     else:
         mode = "gwr" if HAVE_MGWR else "ols"
@@ -339,7 +339,7 @@ def fit_one_gwr(active, x_cols, ycol, min_active=20):
             log(f"  BW={bw}  R2={res.R2:.4f}  params={res.params.shape[1]}")
             return store
         except Exception as e:                       # singular matrix etc.
-            log(f"  GWR failed ({type(e).__name__}: {e}) — OLS fallback")
+            log(f"  GWR failed ({type(e).__name__}: {e}), OLS fallback")
 
     # OLS fallback
     beta = ols_fit(Xs, y)
@@ -370,7 +370,7 @@ def stage_gwr(cfg, grid):
 
 
 # =============================================================================
-# STAGE 6 — TCNTE future scenario (zonal growth factors)
+# STAGE 6, TCNTE future scenario (zonal growth factors)
 # =============================================================================
 def assign_zone(cfg, grid, site_geom):
     z = pd.Series(["periphery"] * len(grid), index=grid.index, dtype=object)
@@ -392,7 +392,7 @@ def assign_zone(cfg, grid, site_geom):
 
 
 def stage_future(cfg, grid, site_geom):
-    banner("STAGE 6: FUTURE SCENARIO — TCNTE")
+    banner("STAGE 6: FUTURE SCENARIO, TCNTE")
     fut = grid.copy()
     fut["zone"] = assign_zone(cfg, grid, site_geom)
     counts = pd.Series(fut["zone"]).value_counts().to_dict()
@@ -414,7 +414,7 @@ def stage_future(cfg, grid, site_geom):
 
 
 # =============================================================================
-# STAGE 7 — predict on-site demand change per category
+# STAGE 7, predict on-site demand change per category
 # =============================================================================
 def predict_cat(store, future, x_cols):
     Xf = future[x_cols].values.astype(float)
@@ -459,7 +459,7 @@ def stage_predict(cfg, grid, future, stores, site_geom):
 
 
 # =============================================================================
-# STAGE 8 — export
+# STAGE 8, export
 # =============================================================================
 def stage_export(cfg, grid, future, summary):
     banner("STAGE 8: EXPORT")
@@ -491,7 +491,7 @@ def make_figure(future, summary, path):
             ax = axes[i, j]; ax.set_facecolor(BG)
             future.plot(column=col.format(c), ax=ax, cmap=cmaps[j],
                         legend=True, markersize=1)
-            ax.set_title(f"{c} — {titles[j]}", color=FG, fontsize=10)
+            ax.set_title(f"{c}, {titles[j]}", color=FG, fontsize=10)
             ax.tick_params(colors=FG, labelsize=6)
             for sp in ax.spines.values():
                 sp.set_color(FG)
@@ -524,7 +524,7 @@ def main():
     cfg = json.loads(Path(args.config).read_text(encoding="utf-8"))
     stages = parse_stages(args.stages)
 
-    banner("GWR REPRODUCTION — Tung Chung TOD")
+    banner("GWR REPRODUCTION, Tung Chung TOD")
     log(f"mgwr available: {HAVE_MGWR}")
 
     site, site_geom, study_gdf, land_gdf = stage_land(cfg)

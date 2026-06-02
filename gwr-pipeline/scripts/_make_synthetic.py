@@ -4,7 +4,6 @@ from pathlib import Path
 from shapely.geometry import Polygon, Point, LineString, box
 
 rng = np.random.default_rng(7)
-# Default output directory: ./synthetic/ relative to script location
 SCRIPT_DIR = Path(__file__).resolve().parent
 D = SCRIPT_DIR / "synthetic"; D.mkdir(exist_ok=True)
 CRS = "EPSG:2326"
